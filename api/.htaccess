@@ -1,0 +1,24 @@
+# ExamLegacy — API directory hardening (defense-in-depth).
+# The root .htaccess already routes /api/* to the front controller and blocks
+# sensitive paths; these rules repeat the critical guards INSIDE /api so they
+# hold even on hosts that ignore the parent rules.
+
+# Never expose the library or the config loader over HTTP.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(lib)(/|$) - [F,L]
+  RewriteRule ^config\.php$ - [F,L]
+  RewriteRule ^\.htaccess$ - [F,L]
+</IfModule>
+
+<FilesMatch "^(config\.php|\.htaccess)$">
+  Require all denied
+</FilesMatch>
+
+# Only the front controller may execute here.
+<FilesMatch "\.php$">
+  Require all denied
+</FilesMatch>
+<Files "index.php">
+  Require all granted
+</Files>

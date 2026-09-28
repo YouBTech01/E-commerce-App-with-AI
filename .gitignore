@@ -1,0 +1,26 @@
+# Secrets & local env — NEVER commit
+.env
+*.env
+!.env.example
+
+# Protected runtime storage (PDFs, uploads, caches)
+/storage/pdfs/*
+/storage/uploads/*
+!/storage/pdfs/.htaccess
+!/storage/uploads/.htaccess
+!/storage/pdfs/index.html
+!/storage/uploads/index.html
+
+# Composer vendor (install via `composer install`)
+/vendor/
+api/vendor/
+
+# Logs & temp
+*.log
+/tmp/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+node_modules/

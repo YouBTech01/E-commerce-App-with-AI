@@ -1,0 +1,20 @@
+{
+    "name": "sanjayxlegacy/examlegacy",
+    "description": "ExamLegacy — digital education PWA (PHP 8 REST API + MySQL + vanilla SPA + PWA)",
+    "type": "project",
+    "license": "proprietary",
+    "keywords": ["pwa", "education", "php", "mysql", "pdf-drm"],
+    "require": {
+        "php": ">=8.1",
+        "ext-pdo": "*",
+        "ext-openssl": "*",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "suggest": {
+        "phpmailer/phpmailer": "Only if you prefer it over the bundled SMTP client in api/lib/Mailer.php (optional)"
+    },
+    "scripts": {
+        "lint": "find api -name '*.php' -print0 | xargs -0 -n1 php -l"
+    }
+}

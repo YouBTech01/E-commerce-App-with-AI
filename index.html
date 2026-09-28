@@ -1,94 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>E-Commerce App</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/auth.css">
-    <style>
-        /* Android-like styles */
-        :root {
-            --safe-area-top: env(safe-area-inset-top);
-            --safe-area-bottom: env(safe-area-inset-bottom);
-        }
-        body {
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-            background: #f5f5f5;
-            overscroll-behavior: none;
-        }
-        .status-bar {
-            height: var(--safe-area-top, 20px);
-            background: #4CAF50;
-        }
-        .bottom-nav {
-            padding-bottom: var(--safe-area-bottom, 0px);
-        }
-        .app-container {
-            height: calc(100vh - var(--safe-area-top, 20px));
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        /* Material Design-like ripple effect */
-        .ripple {
-            position: relative;
-            overflow: hidden;
-            transform: translate3d(0, 0, 0);
-        }
-        .ripple:after {
-            content: "";
-            display: block;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            background-image: radial-gradient(circle, #000 10%, transparent 10.01%);
-            background-repeat: no-repeat;
-            background-position: 50%;
-            transform: scale(10, 10);
-            opacity: 0;
-            transition: transform .5s, opacity 1s;
-        }
-        .ripple:active:after {
-            transform: scale(0, 0);
-            opacity: .2;
-            transition: 0s;
-        }
-        /* Smooth scrolling for products */
-        .scroll-smooth {
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-        /* Product card hover effect */
-        .product-card {
-            transition: transform 0.2s ease;
-        }
-        .product-card:active {
-            transform: scale(0.98);
-        }
-        /* Loading animation */
-        .loading {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: .5; }
-        }
-    </style>
-</head>
-<body class="bg-gray-100">
-    <div class="status-bar"></div>
-    <div id="app" class="app-container"></div>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#4f46e5">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1020">
+  <meta name="description" content="ExamLegacy — premium digital education platform: secure PDF store, private library, in-app viewer and AI study tutor.">
 
-    <!-- Scripts -->
-    <script src="js/data.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/app.js"></script>
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ExamLegacy">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>ExamLegacy — Learn · Practice · Master</title>
+
+  <!-- Icons -->
+  <link rel="icon" href="/assets/img/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Design system -->
+  <link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body>
+  <!-- Boot splash — removed by app.js once the app is ready -->
+  <div id="splash" role="status" aria-label="Loading ExamLegacy">
+    <div class="splash-inner">
+      <img class="splash-logo" src="/assets/img/logo.svg" alt="" width="200" height="200">
+      <div class="splash-sub">SANJAYXLEGACY</div>
+      <div class="splash-bar"><i></i></div>
+    </div>
+  </div>
+
+  <!-- Firebase (compat SDK for no-build vanilla JS). Public web config only. -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+  <!-- MathJax v3 — renders STEM equations in AI answers ($…$, $$…$$) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'kbd', 'samp', 'var'] },
+      startup: { typeset: false }
+    };
+  </script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+
+  <!-- App -->
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/auth.js"></script>
+  <script src="/assets/js/ui.js"></script>
+  <script src="/assets/js/viewer.js"></script>
+  <script src="/assets/js/app.js"></script>
+  <!-- Safety net: never leave the splash up if boot fails -->
+  <script>setTimeout(function () { var s = document.getElementById('splash'); if (s) s.classList.add('gone'); }, 12000);</script>
 </body>
 </html>

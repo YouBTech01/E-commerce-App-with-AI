@@ -1,0 +1,33 @@
+# ExamLegacy — Apache configuration
+# Front controller for the API + hard protection of sensitive paths.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Never serve secrets, dependencies, migrations, docs or PHP internals.
+  RewriteRule (^|/)\.env - [F,L]
+  RewriteRule ^vendor/ - [F,L]
+  RewriteRule ^migrations/ - [F,L]
+  RewriteRule ^docs/ - [F,L]
+  RewriteRule ^storage/ - [F,L]
+  RewriteRule ^api/lib/ - [F,L]
+  RewriteRule ^api/config\.php$ - [F,L]
+  RewriteRule ^composer\.(json|lock)$ - [F,L]
+
+  # Route all /api requests to the front controller.
+  RewriteRule ^api(/.*)?$ api/index.php [QSA,L]
+</IfModule>
+
+# Extra hardening
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header set X-Permitted-Cross-Domain-Policies "none"
+</IfModule>
+
+# Deny access to dotfiles
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>

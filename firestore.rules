@@ -1,0 +1,24 @@
+// ============================================================================
+// ExamLegacy — Cloud Firestore security rules (real-time mirror database).
+//
+// Architecture (spec §2.2): MySQL is the authoritative store; the API server
+// mirrors selected collections to Firestore using a SERVICE ACCOUNT (Admin-style
+// credentials BYPASS security rules). The browser app NEVER talks to Firestore
+// directly, so every client read/write stays denied by default.
+//
+// If you later ship a mobile/web client that reads the mirror, open ONLY the
+// specific read paths needed, e.g.:
+//   match /users/{uid} { allow read: if request.auth != null && request.auth.uid == uid; }
+// Keep writes closed — only the server may write.
+//
+// Deploy with: firebase deploy --only firestore:rules
+// ============================================================================
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Deny all client access — server-side mirroring only.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
